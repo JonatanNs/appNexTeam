@@ -1,0 +1,117 @@
+CREATE TABLE ROLE (
+    id_role BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nom_role VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE PERSON (
+    id_person BIGINT PRIMARY KEY AUTO_INCREMENT,
+    public_id UUID NOT NULL UNIQUE,
+
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    actif BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    version INT DEFAULT 0,
+
+    id_role BIGINT NOT NULL,
+
+    CONSTRAINT fk_person_role
+        FOREIGN KEY (id_role)
+        REFERENCES ROLE(id_role)
+);
+
+CREATE TABLE TASK (
+    id_task BIGINT PRIMARY KEY AUTO_INCREMENT,
+    public_id UUID NOT NULL UNIQUE,
+
+    titre VARCHAR(255) NOT NULL,
+    description TEXT,
+    statut VARCHAR(100) NOT NULL,
+
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    version INT DEFAULT 0,
+
+    id_person BIGINT NOT NULL,
+
+    CONSTRAINT fk_task_person
+        FOREIGN KEY (id_person)
+        REFERENCES PERSON(id_person)
+);
+
+CREATE TABLE MESSAGE (
+    id_message BIGINT PRIMARY KEY AUTO_INCREMENT,
+    public_id UUID NOT NULL UNIQUE,
+
+    contenu TEXT NOT NULL,
+    date_envoi TIMESTAMP NOT NULL,
+
+    created_at TIMESTAMP NOT NULL,
+
+    id_sender BIGINT NOT NULL,
+    id_receiver BIGINT NOT NULL,
+
+    CONSTRAINT fk_message_sender
+        FOREIGN KEY (id_sender)
+        REFERENCES PERSON(id_person),
+
+    CONSTRAINT fk_message_receiver
+        FOREIGN KEY (id_receiver)
+        REFERENCES PERSON(id_person)
+);
+
+CREATE TABLE NEWS (
+    id_news BIGINT PRIMARY KEY AUTO_INCREMENT,
+    public_id UUID NOT NULL UNIQUE,
+
+    titre VARCHAR(255) NOT NULL,
+    contenu TEXT NOT NULL,
+    date_publication TIMESTAMP NOT NULL,
+
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    version INT DEFAULT 0,
+
+    id_person BIGINT NOT NULL,
+
+    CONSTRAINT fk_news_person
+        FOREIGN KEY (id_person)
+        REFERENCES PERSON(id_person)
+);
+
+CREATE TABLE NOTIFICATION (
+    id_notification BIGINT PRIMARY KEY AUTO_INCREMENT,
+    public_id UUID NOT NULL UNIQUE,
+
+    contenu TEXT NOT NULL,
+    lu BOOLEAN NOT NULL DEFAULT FALSE,
+
+    created_at TIMESTAMP NOT NULL,
+
+    id_person BIGINT NOT NULL,
+
+    CONSTRAINT fk_notification_person
+        FOREIGN KEY (id_person)
+        REFERENCES PERSON(id_person)
+);
+
+CREATE TABLE UPLOAD (
+    id_upload BIGINT PRIMARY KEY AUTO_INCREMENT,
+    public_id UUID NOT NULL UNIQUE,
+
+    file_name VARCHAR(255) NOT NULL,
+    path VARCHAR(500) NOT NULL,
+    type VARCHAR(100) NOT NULL,
+
+    created_at TIMESTAMP NOT NULL,
+
+    id_person BIGINT NOT NULL,
+
+    CONSTRAINT fk_upload_person
+        FOREIGN KEY (id_person)
+        REFERENCES PERSON(id_person)
+);
