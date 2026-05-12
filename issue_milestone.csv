@@ -1,0 +1,24 @@
+milestone,title,body,labels
+Initialisation projet,Initialiser le repository Git,"Créer le repo GitHub/GitLab, définir la structure front (Angular) et back (Spring Boot), ajouter README et conventions de commit.",Setup
+Initialisation projet,Configurer Docker,Créer les Dockerfile front/back et docker-compose pour base de développement locale.,DevOps
+Initialisation projet,Mettre en place architecture projet,Définir architecture hexagonale ou clean architecture côté backend et structure modules Angular.,Architecture
+Authentification & sécurité,Création compte utilisateur,"Permettre l'inscription avec email, mot de passe hashé (BCrypt), validation des champs.",Backend
+Authentification & sécurité,Connexion utilisateur JWT,Mettre en place authentification JWT avec gestion des tokens et refresh token.,Backend
+Authentification & sécurité,Gestion des rôles (ADMIN/EMPLOYE),Implémenter système de rôles pour sécuriser les routes API et frontend.,Sécurité
+Authentification & sécurité,Réinitialisation mot de passe,Envoi d'email avec lien sécurisé pour reset password.,Backend
+Gestion utilisateurs,Profil utilisateur,Permettre consultation et modification des informations personnelles.,Feature
+Gestion utilisateurs,Liste des employés (admin),Afficher tous les utilisateurs avec pagination et filtres.,Admin
+Gestion utilisateurs,Désactivation compte utilisateur,Permettre à l'admin de désactiver ou supprimer un compte.,Admin
+Actualités,Création d’une actualité,Permettre à un admin de créer des posts d’entreprise avec texte et image.,Feature
+Actualités,Affichage fil d’actualité,Afficher les posts triés par date avec pagination infinie.,Frontend
+Actualités,Like et commentaires,Permettre aux employés d’interagir avec les posts.,Feature
+Messagerie,Chat privé utilisateur,Permettre l’envoi de messages en temps réel entre employés.,Feature
+Messagerie,Liste des conversations,Afficher historique des conversations triées par activité récente.,Frontend
+Messagerie,Statut en ligne,Afficher présence utilisateur (online/offline).,Feature
+Notifications,Système de notifications,"Envoyer notifications pour messages, posts et actions admin.",Feature
+Notifications,Centre de notifications,Afficher toutes les notifications avec statut lu/non lu.,Frontend
+Administration,Dashboard admin,"Afficher statistiques utilisateurs, activité et posts.",Admin
+Administration,Gestion des contenus,Modération des posts et commentaires.,Admin
+Tests & déploiement,Tests unitaires backend,Écrire tests JUnit pour services et controllers.,Qualité
+Tests & déploiement,CI/CD pipeline,Configurer GitHub Actions pour build et tests automatiques.,DevOps
+Tests & déploiement,Déploiement AWS/Docker,Déployer application sur serveur cloud avec Docker.,DevOps
