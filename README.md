@@ -1,9 +1,9 @@
-# ConnecTeam
+# NexTeam
 ### *L'intranet nouvelle génération qui unifie vos équipes.*
 
-Plateforme intranet permettant la communication et la gestion interne des employés. ConnecTeam répond à un besoin majeur rencontré dans de nombreuses entreprises : le manque de communication et de centralisation des échanges entre les employés, les ressources humaines, les responsables et les managers.
+Plateforme intranet permettant la communication et la gestion interne des employés. NexTeam répond à un besoin majeur rencontré dans de nombreuses entreprises : le manque de communication et de centralisation des échanges entre les employés, les ressources humaines, les responsables et les managers.
 
-L’application ConnecTeam permet de pallier cette problématique grâce à un système de messagerie intégré favorisant les échanges rapides et directs entre les différents acteurs de l’entreprise. La plateforme permet également de centraliser plusieurs outils internes au sein d’une seule application afin de simplifier l’organisation et améliorer la productivité des équipes.
+L’application NexTeam permet de pallier cette problématique grâce à un système de messagerie intégré favorisant les échanges rapides et directs entre les différents acteurs de l’entreprise. La plateforme permet également de centraliser plusieurs outils internes au sein d’une seule application afin de simplifier l’organisation et améliorer la productivité des équipes.
 
 [![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -18,14 +18,14 @@ Cette dispersion réduit la productivité et complique la communication interne.
 
 ---
 
-## 🎯 La Solution : ConnecTeam
-**ConnecTeam** est une plateforme centralisée qui regroupe communication, gestion et informations internes dans une interface moderne, sécurisée et intuitive.
+## 🎯 La Solution : NexTeam
+**NexTeam** est une plateforme centralisée qui regroupe communication, gestion et informations internes dans une interface moderne, sécurisée et intuitive.
 
 ---
 
 ## 📸 Aperçu du Dashboard
 
-![ConnecTeam Dashboard](docs/03-conception-uxui/presentation-connecTeam.png)
+![NexTeam Dashboard](docs/03-conception-uxui/presentation-connecTeam.png)
 
 ---
 
@@ -84,7 +84,7 @@ http://localhost:4200
 
 ## 📖 Pourquoi ce projet ?
 
-ConnecTeam est conçu avec une approche Product-First et orientée entreprise.
+NexTeam est conçu avec une approche Product-First et orientée entreprise.
 
 Objectifs :
 
