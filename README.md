@@ -25,7 +25,7 @@ Cette dispersion réduit la productivité et complique la communication interne.
 
 ## 📸 Aperçu du Dashboard
 
-![NexTeam Dashboard](docs/03-conception-uxui/presentation-connecTeam.png)
+![NexTeam Dashboard](docs/03-conception-uxui/presentation-nexTeam.png)
 
 ---
 

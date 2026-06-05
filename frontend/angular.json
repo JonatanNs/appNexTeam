@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "connecteam": {
+    "nexTeam": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/connecteam",
+            "outputPath": "dist/nexTeam",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "connecteam:build:production"
+              "buildTarget": "nexTeam:build:production"
             },
             "development": {
-              "buildTarget": "connecteam:build:development"
+              "buildTarget": "nexTeam:build:development"
             }
           },
           "defaultConfiguration": "development"
