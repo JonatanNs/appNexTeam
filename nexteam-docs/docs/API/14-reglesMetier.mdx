@@ -1,0 +1,124 @@
+# Règles métier
+
+Auteur : Jonatan NSUALU
+
+Date : Mai 2026
+
+---
+
+# Introduction
+
+Les règles métier définissent les contraintes et le fonctionnement réel de l’application NexTeam.
+
+Elles permettent d’assurer la cohérence des données, la sécurité du système ainsi que le respect des permissions selon les rôles des utilisateurs.
+
+Ces règles représentent la logique métier de l’application et déterminent les actions autorisées ou interdites au sein du système.
+
+---
+
+## Utilisateurs
+
+Les utilisateurs représentent les différents membres de l’entreprise utilisant la plateforme.
+
+Les règles suivantes doivent être respectées :
+
+- chaque utilisateur doit posséder un rôle ;
+- une adresse email doit être unique ;
+- un utilisateur ne peut posséder qu’un seul compte ;
+- les mots de passe doivent être sécurisés et chiffrés ;
+- seuls les comptes actifs peuvent accéder à la plateforme ;
+- un utilisateur désactivé ne peut plus se connecter ;
+- chaque utilisateur possède un identifiant public unique (`UUID`) utilisé dans l’API ;
+- les informations utilisateur doivent respecter les validations définies par le système.
+
+---
+
+## 🔹Tâches
+
+Les tâches permettent d’organiser et de suivre le travail des employés.
+
+Les règles métier associées sont :
+
+- une tâche doit obligatoirement posséder un titre ;
+- une tâche appartient à un utilisateur ;
+- seul un manager peut créer ou assigner une tâche ;
+- une tâche possède un statut ;
+- le statut d’une tâche doit respecter les différentes étapes définies par l’application ;
+- les modifications des tâches conservent une date de création et de mise à jour ;
+- les utilisateurs ne peuvent consulter que les tâches autorisées selon leurs permissions.
+
+---
+
+## 🔹Messages
+
+Le système de messagerie permet la communication entre les utilisateurs de la plateforme.
+
+Les règles métier sont :
+
+- seuls les utilisateurs authentifiés peuvent envoyer des messages ;
+- un message doit posséder un contenu ;
+- chaque message possède une date d’envoi ;
+- les conversations sont sauvegardées ;
+- seuls les utilisateurs concernés peuvent consulter leurs messages ;
+- un utilisateur ne peut supprimer que ses propres messages selon les règles définies par l’application ;
+- les messages peuvent contenir des pièces jointes.
+
+---
+
+## 🔹Actualités
+
+Le module d’actualités permet la diffusion d’informations internes à l’entreprise.
+
+Les règles métier sont :
+
+- seules les RH et les administrateurs peuvent publier des actualités ;
+- une actualité doit posséder un titre ;
+- une actualité doit contenir un contenu ;
+- chaque actualité possède une date de publication ;
+- les modifications des actualités sont historisées ;
+- les actualités sont visibles par les utilisateurs autorisés.
+
+---
+
+## 🔹Notifications
+
+Les notifications permettent d’informer les utilisateurs des événements importants du système.
+
+Les règles métier sont :
+
+- une notification appartient à un utilisateur ;
+- une notification peut être marquée comme lue ;
+- les notifications sont générées automatiquement selon certains événements ;
+- les notifications possèdent une date de création.
+
+---
+
+## 🔹Uploads
+
+Le système d’upload permet la gestion des fichiers de l’application.
+
+Les règles métier sont :
+
+- chaque fichier uploadé possède un chemin de stockage ;
+- un type de fichier doit être défini ;
+- seuls certains formats de fichiers sont autorisés ;
+- les fichiers doivent respecter une taille maximale ;
+- chaque fichier uploadé possède une date de création ;
+- les accès aux fichiers dépendent des permissions utilisateur.
+
+---
+
+## 🔹Permissions et sécurité
+
+Le système applique une gestion des permissions basée sur les rôles.
+
+Les règles principales sont :
+
+- un employé ne peut pas accéder aux fonctionnalités d’administration ;
+- un manager possède des droits de gestion des tâches ;
+- les RH peuvent gérer les utilisateurs et les actualités ;
+- les administrateurs possèdent un accès complet à la plateforme ;
+- certaines routes API nécessitent une authentification ;
+- les accès aux ressources sont contrôlés côté backend ;
+- les échanges sensibles doivent être sécurisés ;
+- les tokens d’authentification doivent être valides pour accéder aux fonctionnalités protégées.

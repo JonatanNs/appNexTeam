@@ -1,0 +1,173 @@
+# Diagramme de classes
+
+Auteur : Jonatan NSUALU
+Date : Mai 2026
+
+# Introduction
+
+Le diagramme de classes a été réalisé afin de représenter la structure globale du système NexTeam et d’identifier les principales entités métier ainsi que leurs relations. Il permet de modéliser les objets du domaine (utilisateurs, messages, tâches, notifications, etc.) et de définir leurs attributs ainsi que leurs interactions.
+
+Cette modélisation est essentielle pour structurer l’architecture backend. Elle permet de clarifier la conception du système avant l’implémentation, d’assurer la cohérence des données et de faciliter l’évolution future de l’application.
+
+Grâce à ce diagramme, il est plus simple de comprendre l’organisation du système et de garantir une base solide pour le développement des différentes fonctionnalités de la plateforme.
+
+# Diagramme de classes
+
+![diagramme_classe-NexTeam-v2.png](/img/diagramme-de-classes/diagramme_classe-connecTeam-v2.png)
+
+# Code PlantUML
+
+Ce code a servie à générer le diagramme de classe sur le logiciel PlantUML.
+
+[outil open-source qui utilise des descriptions textuelles simples pour dessiner des diagrammes UML.](https://plantuml.com/fr/)
+
+```sql
+@startuml
+class User {
+  +id : Long
+  +publicId : UUID
+
+  +firstName : String
+  +lastName : String
+  +email : String
+  +password : String
+  +active : Boolean
+
+  +createdAt : Date
+  +updatedAt : Date
+  +version : Integer
+}
+
+class Role {
+  +id : Long
+  +name : String
+}
+
+class Address {
+  +id : Long
+  +street : String
+  +city : String
+  +postalCode : String
+  +country : String
+
+  +createdAt : Date
+  +updatedAt : Date
+}
+
+class UserProfile {
+  +id : Long
+  +bio : String
+  +avatarUrl : String
+  +phone : String
+
+  +createdAt : Date
+  +updatedAt : Date
+}
+
+class AuthToken {
+  +id : Long
+  +token : String
+  +refreshToken : String
+  +expiresAt : Date
+  +revoked : Boolean
+
+  +createdAt : Date
+}
+
+class Task {
+  +id : Long
+  +publicId : UUID
+
+  +title : String
+  +description : String
+  +status : String
+
+  +createdAt : Date
+  +updatedAt : Date
+  +version : Integer
+}
+
+class News {
+  +id : Long
+  +publicId : UUID
+
+  +title : String
+  +content : String
+  +publishedAt : Date
+
+  +createdAt : Date
+  +updatedAt : Date
+  +version : Integer
+}
+
+class Conversation {
+  +id : Long
+  +createdAt : Date
+}
+
+class Message {
+  +id : Long
+  +content : String
+  +sentAt : Date
+  +createdAt : Date
+}
+
+class Notification {
+  +id : Long
+  +publicId : UUID
+
+  +content : String
+  +read : Boolean
+  +readAt : Date
+  +createdAt : Date
+}
+
+class File {
+  +id : Long
+  +publicId : UUID
+
+  +name : String
+  +url : String
+  +mimeType : String
+  +size : Long
+
+  +type : UploadType
+
+  +createdAt : Date
+}
+
+enum UploadType {
+  COMPANY
+  NEWS_IMAGE
+  AVATAR
+  MESSAGE_ATTACHMENT
+  FILE_HR
+  OTHER
+}
+
+' =======================
+' RELATIONS
+' =======================
+
+Role "1" -- "*" User
+
+User "1" -- "1" Address : has
+User "1" -- "1" UserProfile : profile
+User "1" -- "*" AuthToken : tokens
+
+User "1" -- "*" Task : assigns
+User "1" -- "*" News : publishes
+User "1" -- "*" Notification : receives
+
+Conversation "1" -- "*" Message
+
+User "1" -- "*" Message : sends
+
+User "*" -- "*" Conversation : participates
+
+User "1" -- "*" File : uploads
+File  ---  UploadType 
+
+Task "*" -- "*" File : attachments
+@enduml
+```

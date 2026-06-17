@@ -1,0 +1,88 @@
+# Plan de tests
+
+Auteur : Jonatan NSUALU
+
+Date : Mai 2026
+
+# Introduction
+
+L’objectif de cette phase de test est de vérifier le bon fonctionnement de l’ensemble des fonctionnalités de l’application ConnecTeam, de valider les règles métier définies dans les user stories et de s’assurer que le système gère correctement les cas normaux ainsi que les cas d’erreurs.
+
+---
+
+# 1. Authentification
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T1 | Connexion valide | Email + mot de passe correct | Accès à la plateforme + token JWT |
+| T2 | Connexion invalide | Mauvais mot de passe | Message d’erreur |
+| T3 | Email inexistant | Email non enregistré | Refus d’accès |
+
+---
+
+# 2. Messagerie
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T4 | Envoyer message | Message utilisateur A → B | Message enregistré + visible pour B |
+| T5 | Supprimer message | Suppression par expéditeur | Message supprimé ou masqué |
+| T6 | Accès non autorisé | User tente de supprimer message d’un autre | Refus d’action |
+
+---
+
+# 3. Tâches
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T7 | Créer tâche | Manager crée tâche | Tâche créée et assignée |
+| T8 | Modifier statut | EN_COURS → TERMINE | Statut mis à jour |
+| T9 | Accès employé | Employé consulte tâche | Tâche visible |
+
+---
+
+# 4. Actualités
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T10 | Consulter news | Accès utilisateur | Liste des actualités affichée |
+| T11 | Créer news | RH/Admin publie article | News visible pour tous |
+| T12 | Modification news | Update contenu | News mise à jour |
+
+---
+
+# 5. Utilisateurs (RH / Admin)
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T13 | Créer utilisateur | RH crée compte | Utilisateur actif avec rôle |
+| T14 | Désactiver utilisateur | Désactivation compte | Accès bloqué |
+| T15 | Accès interdit | User non admin tente action RH | Refus d’accès |
+
+---
+
+# 6. Notifications
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T16 | Notification message | Envoi message | Notification créée |
+| T17 | Lecture notification | Ouverture notif | champ `lu = true` |
+
+---
+
+# 7. Upload
+
+| ID | Cas de test | Entrée | Résultat attendu |
+| --- | --- | --- | --- |
+| T18 | Upload fichier | PDF / image | Fichier stocké + path enregistré |
+| T19 | Type invalide | Fichier interdit | Erreur upload |
+| T20 | Accès fichier | Téléchargement | Fichier accessible selon droits |
+
+---
+
+# 8. Cas d’erreurs globaux
+
+- Email déjà utilisé lors création user
+- Mot de passe incorrect
+- Accès refusé selon rôle
+- Données manquantes dans requêtes
+- Fichier trop volumineux ou invalide

@@ -1,0 +1,50 @@
+/**
+ * Global Theme - NexTeam
+ */
+
+:root {
+
+  /* ===== PRIMARY ===== */
+
+  --ifm-color-primary: #17356c;
+  --ifm-color-primary-dark: #14305f;
+  --ifm-color-primary-darker: #122b57;
+  --ifm-color-primary-darkest: #0f2448;
+
+  --ifm-color-primary-light: #1b3d7b;
+  --ifm-color-primary-lighter: #214788;
+  --ifm-color-primary-lightest: #2a569f;
+
+  /* ===== BACKGROUND ===== */
+
+  --ifm-background-color: #f9f9f9;
+  --ifm-background-surface-color: #ffffff;
+
+  /* ===== TEXT ===== */
+
+  --ifm-font-color-base: #1a1c1c;
+  --ifm-heading-color: #001f50;
+
+  /* ===== BORDERS ===== */
+
+  --ifm-toc-border-color: #d0d0d0;
+  --ifm-color-emphasis-200: #e2e2e2;
+  --ifm-color-emphasis-300: #d0d0d0;
+
+  /* ===== TYPO ===== */
+
+  --ifm-font-family-base: 'Nunito', sans-serif;
+  --ifm-heading-font-family: 'Nunito', sans-serif;
+
+  --ifm-code-font-size: 95%;
+
+  /* ===== COMPONENTS ===== */
+
+  --ifm-card-border-radius: 16px;
+  --ifm-button-border-radius: 8px;
+  --ifm-global-radius: 8px;
+
+  /* ===== CODE ===== */
+
+  --docusaurus-highlighted-code-line-bg: rgba(23, 53, 108, 0.08);
+}
