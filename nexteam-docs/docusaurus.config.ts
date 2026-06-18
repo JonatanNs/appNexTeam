@@ -41,10 +41,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
@@ -52,11 +48,6 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -69,8 +60,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/logo_nexteam.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -106,13 +96,14 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Cahier des charges',
-              to: '/docs/2-cahierDesCharges.mdx',
+              label: 'Préparation du projet',
+              to: '/docs/preparation',
             },
             {
               label: 'Cahier des charges',
-              to: '/docs/2-cahierDesCharges.mdx',
+              to: '/docs/cahierDesCharges',
             },
+            
             
           ],
         },

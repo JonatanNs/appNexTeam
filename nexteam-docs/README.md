@@ -1,41 +1,75 @@
-# Website
+# NexTeam - Documentation
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+NexTeam est une plateforme d’intranet nouvelle génération visant à centraliser la communication, la gestion de tâches et les outils collaboratifs au sein des équipes.
 
-## Installation
+Cette documentation technique est construite avec **Docusaurus**.
+
+---
+
+## 🚀 Installation
 
 ```bash
-yarn
+yarn install
 ```
-
-## Local Development
+## 💻 Lancer le projet en local
 
 ```bash
 yarn start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Le site sera accessible sur :
+http://localhost:3000
 
-## Build
+Les modifications sont appliquées automatiquement (hot reload).
+
+## 🏗️ Build de production
 
 ```bash
 yarn build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Génère un site statique dans le dossier /build.
 
-## Deployment
+## 🌐 Déploiement
 
-Using SSH:
 
+Avec SSH
 ```bash
 USE_SSH=true yarn deploy
 ```
 
-Not using SSH:
+Sans SSH
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+GIT_USER=<votre-username-github> 
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+```bash
+yarn deploy
+```
+
+## 🧱 Stack technique
+
+Docusaurus 3
+React
+TypeScript
+Markdown / MDX
+Prism (highlight code)
+
+## 📁 Structure du projet
+
+```bash
+/docs        → Documentation technique
+/src         → Composants UI custom
+/static      → Images, assets
+/sidebars.ts → Navigation des docs
+```
+
+## ✨ Objectif du projet
+
+Ce projet a pour but de documenter et structurer l’architecture et les fonctionnalités de NexTeam, une application d’intranet moderne destinée à améliorer la productivité des équipes.
+
+## 📌 Auteur
+
+Projet réalisé par Jonatan Ns
+GitHub : https://github.com/JonatanNs/appNexTeam
