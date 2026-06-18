@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknexteam_docs=self.webpackChunknexteam_docs||[]).push([["489"],{901(e){e.exports=JSON.parse('{"metadata":{"permalink":"/appNexTeam/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":0,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
