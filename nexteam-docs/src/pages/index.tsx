@@ -7,10 +7,12 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
+
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title} - Documentation NexTeam`}
+      description="Documentation officielle de NexTeam : guides, bonnes pratiques, architecture, outils et ressources pour le développement et la collaboration."
+    >
       <main>
         <HomepageFeatures />
       </main>
