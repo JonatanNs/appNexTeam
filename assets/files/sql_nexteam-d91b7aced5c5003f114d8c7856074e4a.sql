@@ -1,0 +1,170 @@
+-- ============================================================
+-- Schéma PostgreSQL généré à partir du modèle DBML
+-- Note : "USER" est un mot réservé en PostgreSQL -> table renommée "users"
+-- ============================================================
+
+-- Tables sans dépendance
+CREATE TABLE address (
+    id_address    SERIAL PRIMARY KEY,
+    street        VARCHAR(255),
+    city          VARCHAR(255),
+    postal_code   VARCHAR(20),
+    country       VARCHAR(255),
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE TABLE role (
+    id_role       SERIAL PRIMARY KEY,
+    name          VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE notification_type (
+    id_type       SERIAL PRIMARY KEY,
+    name          VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Table centrale
+CREATE TABLE users (
+    id_user       SERIAL PRIMARY KEY,
+    public_id     UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+
+    first_name    VARCHAR(100) NOT NULL,
+    last_name     VARCHAR(100) NOT NULL,
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    password      VARCHAR(255) NOT NULL,
+    active        BOOLEAN NOT NULL DEFAULT true,
+
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now(),
+    version       INT NOT NULL DEFAULT 0,
+
+    id_address    INT REFERENCES address(id_address)
+);
+
+-- Table de jonction User <-> Role (Many-to-Many)
+CREATE TABLE user_role (
+    id_user       INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE,
+    id_role       INT NOT NULL REFERENCES role(id_role) ON DELETE CASCADE,
+    PRIMARY KEY (id_user, id_role)
+);
+
+CREATE TABLE user_profile (
+    id_profile    SERIAL PRIMARY KEY,
+    bio           TEXT,
+    avatar_url    VARCHAR(500),
+    phone         VARCHAR(20),
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now(),
+    id_user       INT NOT NULL UNIQUE REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+CREATE TABLE auth_token (
+    id_token      SERIAL PRIMARY KEY,
+    token         VARCHAR(500) NOT NULL,
+    refresh_token VARCHAR(500),
+    expires_at    TIMESTAMP NOT NULL,
+    revoked       BOOLEAN NOT NULL DEFAULT false,
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    id_user       INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+CREATE TABLE conversation (
+    id_conversation SERIAL PRIMARY KEY,
+    created_at      TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE TABLE conversation_participant (
+    id_conversation INT NOT NULL REFERENCES conversation(id_conversation) ON DELETE CASCADE,
+    id_user         INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE,
+    joined_at       TIMESTAMP NOT NULL DEFAULT now(),
+    PRIMARY KEY (id_conversation, id_user)
+);
+
+CREATE TABLE message (
+    id_message      SERIAL PRIMARY KEY,
+    content         TEXT NOT NULL,
+    sent_at         TIMESTAMP NOT NULL DEFAULT now(),
+    created_at      TIMESTAMP NOT NULL DEFAULT now(),
+    id_sender       INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE,
+    id_conversation INT NOT NULL REFERENCES conversation(id_conversation) ON DELETE CASCADE
+);
+
+CREATE TABLE task (
+    id_task       SERIAL PRIMARY KEY,
+    public_id     UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+    title         VARCHAR(255) NOT NULL,
+    description   TEXT,
+    status        VARCHAR(50) NOT NULL,
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now(),
+    version       INT NOT NULL DEFAULT 0,
+    id_user       INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+CREATE TABLE file (
+    id_file       SERIAL PRIMARY KEY,
+    public_id     UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+    name          VARCHAR(255) NOT NULL,
+    url           VARCHAR(500) NOT NULL,
+    mime_type     VARCHAR(100),
+    size          BIGINT,
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    id_user       INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+CREATE TABLE task_file (
+    id_task       INT NOT NULL REFERENCES task(id_task) ON DELETE CASCADE,
+    id_file       INT NOT NULL REFERENCES file(id_file) ON DELETE CASCADE,
+    PRIMARY KEY (id_task, id_file)
+);
+
+CREATE TABLE news (
+    id_news       SERIAL PRIMARY KEY,
+    public_id     UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+    title         VARCHAR(255) NOT NULL,
+    content       TEXT NOT NULL,
+    published_at  TIMESTAMP,
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now(),
+    version       INT NOT NULL DEFAULT 0,
+    id_user       INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+CREATE TABLE notification (
+    id_notification SERIAL PRIMARY KEY,
+    public_id       UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+    content         TEXT NOT NULL,
+    read            BOOLEAN NOT NULL DEFAULT false,
+    created_at      TIMESTAMP NOT NULL DEFAULT now(),
+    read_at         TIMESTAMP,
+    id_user         INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE,
+    id_type         INT NOT NULL REFERENCES notification_type(id_type)
+);
+
+-- ============================================================
+-- Index sur les FK (Postgres n'indexe pas automatiquement les FK,
+-- contrairement aux PK)
+-- ============================================================
+
+CREATE INDEX idx_users_address ON users(id_address);
+
+CREATE INDEX idx_user_role_role ON user_role(id_role);
+
+CREATE INDEX idx_auth_token_user ON auth_token(id_user);
+
+CREATE INDEX idx_conversation_participant_user ON conversation_participant(id_user);
+
+CREATE INDEX idx_message_sender ON message(id_sender);
+CREATE INDEX idx_message_conversation ON message(id_conversation);
+
+CREATE INDEX idx_task_user ON task(id_user);
+
+CREATE INDEX idx_file_user ON file(id_user);
+
+CREATE INDEX idx_task_file_file ON task_file(id_file);
+
+CREATE INDEX idx_news_user ON news(id_user);
+
+CREATE INDEX idx_notification_user ON notification(id_user);
+CREATE INDEX idx_notification_type ON notification(id_type);
