@@ -1,41 +1,3 @@
-# Modèle de données (MCD / MLD)
-
-Dans le cadre du projet NexTeam, la modélisation des données constitue une étape essentielle de la conception de la base de données. Elle permet de structurer et d’organiser les informations manipulées par l’application afin de garantir leur cohérence, leur intégrité et leur bonne exploitation.
-
-Pour cela, deux niveaux de modélisation ont été réalisés : le Modèle Conceptuel de Données (MCD) et le Modèle Logique de Données (MLD). Ces deux modèles permettent de passer progressivement d’une vision métier des données à une structure directement exploitable en base de données relationnelle.
-
-# MCD (Modèle Conceptuel de Données)
-
-Le MCD représente une vision **abstraite et métier** des données du système, sans prise en compte des aspects techniques ou du type de base de données utilisé.
-
-Il permet de définir :
-
-- les **entités** (ex : Utilisateur, Message, Tâche)
-- leurs **attributs**
-- les **relations** entre elles (ex : un utilisateur envoie des messages, crée des tâches, etc.)
-
-L’objectif du MCD est de comprendre et structurer les besoins en données du système de manière claire et indépendante de toute implémentation technique.
-
-![mcd_nexteam.PNG](/img/modele-de-donnees/mcd_nexteam.PNG)
-
-# MLD (Modèle Logique de Données)
-
-Le MLD est la traduction du MCD vers une structure **compatible avec une base de données relationnelle**.
-
-Il permet de définir :
-
-- les **tables**
-- les **clés primaires**
-- les **clés étrangères**
-- la structure exacte des relations entre les tables
-
-Le MLD sert donc de base directe pour l’implémentation de la base de données (SQL) et garantit que le modèle conceptuel peut être correctement transformé en système fonctionnel.
-
-[Télécharger le schéma SQL](/file/sql_nexteam.sql)
-
-## Version SQL
-
-```sql
 -- ============================================================
 -- Schéma PostgreSQL généré à partir du modèle DBML
 -- Note : "USER" est un mot réservé en PostgreSQL -> table renommée "users"
@@ -206,4 +168,3 @@ CREATE INDEX idx_news_user ON news(id_user);
 
 CREATE INDEX idx_notification_user ON notification(id_user);
 CREATE INDEX idx_notification_type ON notification(id_type);
-```
