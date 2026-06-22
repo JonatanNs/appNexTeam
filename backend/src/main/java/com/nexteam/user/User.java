@@ -1,6 +1,6 @@
-package com.nexteam.User;
+package com.nexteam.user;
 
-import com.nexteam.Role.Role;
+import com.nexteam.role.Role;
 import com.nexteam.address.Address;
 import com.nexteam.common.AuditableEntity;
 import jakarta.persistence.*;
@@ -45,7 +45,7 @@ public class User extends AuditableEntity {
     @NotBlank(message = "Ce champ ne peut pas être vide.")
     @Pattern(
             regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).+$",
-            message = "Le mot de passe doit contenir majuscule, minuscule et chiffre"
+            message = "Le mot de passe doit contenir majuscule, minuscule et chiffre."
     )
     // TODO : mettre un mot de passe fort
     private String password;
@@ -53,6 +53,10 @@ public class User extends AuditableEntity {
     @Column(nullable = false)
     private boolean active = true;
 
+    /**
+     * Relation ManyToMany entre User et Role.
+     * Un utilisateur peut avoir plusieurs rôles et un rôle peut être attribué à plusieurs utilisateurs
+     */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_roles",
@@ -61,6 +65,10 @@ public class User extends AuditableEntity {
     )
     private Set<Role> roles = new HashSet<>();
 
+    /**
+     * Relation ManyToOne entre User et Address.
+     * Un utilisateur peut avoir une seule adresse et une adresse peut être attribuée à plusieurs utilisateurs.
+     */
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;

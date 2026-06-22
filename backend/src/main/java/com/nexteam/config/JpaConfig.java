@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
- * Classe 'JpaConfig' en charge de
+ * Classe 'JpaConfig' en charge de la configuration de JPA et de l'audit des entités.
  *
  * @author jnsualu2026
  * @since 2026-06-22

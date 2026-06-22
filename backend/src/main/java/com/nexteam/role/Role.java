@@ -1,4 +1,4 @@
-package com.nexteam.Role;
+package com.nexteam.role;
 
 import com.nexteam.common.BaseEntity;
 import jakarta.persistence.Column;

@@ -1,13 +1,13 @@
-package com.nexteam.User.sql;
+package com.nexteam.user.sql;
 
-import com.nexteam.User.User;
+import com.nexteam.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Classe 'UserRepository' en charge de
+ * Classe 'UserRepository' en charge de la gestion des opérations CRUD sur les utilisateurs.
  *
  * @author jnsualu2026
  * @since 2026-06-19

@@ -1,4 +1,4 @@
-package com.nexteam.User;
+package com.nexteam.user;
 
 import com.nexteam.common.ApiResponse;
 import jakarta.validation.Valid;
@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * Classe 'UserController' en charge de
+ * Classe 'UserController' en charge de gérer les opérations CRUD sur les utilisateurs.
+ * Fournit les endpoints REST pour créer, lire, mettre à jour et supprimer des utilisateurs.
  *
  * @author jnsualu2026
  * @since 2026-06-19
@@ -23,6 +24,12 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * Récupère tous les utilisateurs avec pagination.
+     *
+     * @param pageable les paramètres de pagination
+     * @return une réponse contenant une page d'utilisateurs
+     */
     @GetMapping("/users")
     public ResponseEntity<ApiResponse<Page<User>>> getUsers(Pageable pageable) {
         return ResponseEntity.ok().body(
@@ -34,6 +41,12 @@ public class UserController {
         );
     }
 
+    /**
+     * Récupère un utilisateur par son identifiant unique.
+     *
+     * @param id l'UUID de l'utilisateur
+     * @return une réponse contenant l'utilisateur demandé
+     */
     @GetMapping("/user/{id}")
     public ResponseEntity<ApiResponse<User>> getUser(@PathVariable UUID id) {
         return ResponseEntity.ok().body(
@@ -45,6 +58,12 @@ public class UserController {
         );
     }
 
+    /**
+     * Récupère un utilisateur par son adresse email.
+     *
+     * @param email l'adresse email de l'utilisateur
+     * @return une réponse contenant l'utilisateur recherché
+     */
     @GetMapping("/user/email")
     public ResponseEntity<ApiResponse<User>> getUserByEmail(@RequestParam String email) {
         return ResponseEntity.ok(
@@ -55,6 +74,12 @@ public class UserController {
         );
     }
 
+    /**
+     * Crée un nouvel utilisateur.
+     *
+     * @param user l'objet utilisateur à créer (validé)
+     * @return une réponse contenant l'utilisateur créé
+     */
     @PostMapping("/user")
     public ResponseEntity<ApiResponse<User>> createUser(@Valid @RequestBody User user) {
         return ResponseEntity.ok().body(
@@ -66,6 +91,13 @@ public class UserController {
         );
     }
 
+    /**
+     * Met à jour un utilisateur existant.
+     *
+     * @param publicId l'UUID de l'utilisateur à mettre à jour
+     * @param user l'objet utilisateur avec les données mises à jour (validé)
+     * @return une réponse contenant l'utilisateur modifié
+     */
     @PutMapping("/user/{publicId}")
     public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable UUID publicId, @Valid @RequestBody User user) {
         return ResponseEntity.ok().body(
@@ -77,6 +109,12 @@ public class UserController {
         );
     }
 
+    /**
+     * Supprime un utilisateur.
+     *
+     * @param publicId l'UUID de l'utilisateur à supprimer
+     * @return une réponse de confirmation de suppression
+     */
     @DeleteMapping("/user/{publicId}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable UUID publicId) {
         userService.deleteUser(publicId);

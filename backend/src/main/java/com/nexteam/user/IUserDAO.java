@@ -1,4 +1,4 @@
-package com.nexteam.User;
+package com.nexteam.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Classe 'IUserDAO' en charge de
+ * Interface 'IUserDAO' en charge de la gestion des opérations CRUD sur les utilisateurs.
  *
  * @author jnsualu2026
  * @since 2026-06-19

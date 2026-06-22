@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * Classe 'GlobalRestController' en charge de
+ * Classe 'GlobalRestController' en charge de la gestion globale des exceptions pour les contrôleurs REST.
  *
  * @author jnsualu2026
  * @since 2026-06-19

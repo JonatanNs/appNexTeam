@@ -1,4 +1,4 @@
-package com.nexteam.User;
+package com.nexteam.user;
 
 import com.nexteam.exception.AlreadyExistException;
 import com.nexteam.exception.NotFoundException;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 /**
- * Classe 'UserService' en charge de
+ * Classe 'UserService' en charge de la logique métier pour la gestion des utilisateurs.
  *
  * @author jnsualu2026
  * @since 2026-06-19
@@ -26,14 +26,31 @@ public class UserService {
         return dao.getAll(pageable);
     }
 
+    /**
+     * Récupère un utilisateur par son identifiant unique.
+     * @param publicId
+     * @return l'utilisateur trouvé
+     */
     public User getUser(UUID publicId) {
         return dao.getByPublicId(publicId).orElseThrow( ()-> new NotFoundException("Élément non trouvé."));
     }
 
+    /**
+     * Récupère un utilisateur par son email.
+     * @param email
+     * @return l'utilisateur trouvé
+     */
     public User getUserByEmail(String email) {
         return dao.getByEmail(email).orElseThrow( () -> new NotFoundException("Élément non trouvé.")) ;
     }
 
+    /**
+     * Met à jour un utilisateur existant.
+     * Vérifie si l'utilisateur existe avant de procéder à la mise à jour.
+     * @param publicId
+     * @param user
+     * @return l'utilisateur mis à jour
+     */
     public User updateUser(UUID publicId, User user) {
         User existingUser = dao.getByPublicId(publicId).orElseThrow(() -> new NotFoundException("Élément non trouvé."));
 
@@ -42,6 +59,12 @@ public class UserService {
         return dao.save(user);
     }
 
+    /**
+     * Crée un nouvel utilisateur.
+     * Vérifie si l'email est déjà associé à un compte existant.
+     * @param user
+     * @return l'utilisateur créé
+     */
     public User createUser(User user) {
         dao.getByEmail(user.getEmail()).ifPresent(existingUser -> {
             throw new AlreadyExistException("L'email est déjà associé à un compte.");
@@ -49,6 +72,10 @@ public class UserService {
         return dao.save(user);
     }
 
+    /**
+     * Supprime un utilisateur par son identifiant unique.
+     * @param publicId
+     */
     @Transactional
     public void deleteUser(UUID publicId){
         dao.getByPublicId(publicId).orElseThrow( () -> new NotFoundException("Élément non trouvé.") );
