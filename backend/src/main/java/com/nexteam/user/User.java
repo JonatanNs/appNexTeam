@@ -24,6 +24,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 
 @Entity
 public class User extends AuditableEntity {

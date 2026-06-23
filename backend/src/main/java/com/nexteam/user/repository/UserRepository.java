@@ -1,4 +1,4 @@
-package com.nexteam.user.sql;
+package com.nexteam.user.repository;
 
 import com.nexteam.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

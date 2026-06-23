@@ -1,6 +1,7 @@
 package com.nexteam.user;
 
 import com.nexteam.common.ApiResponse;
+import com.nexteam.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @RequestMapping("api/v1")
 @RestController
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     /**
      * Récupère tous les utilisateurs avec pagination.
@@ -36,7 +37,7 @@ public class UserController {
                 ApiResponse.of(
                         HttpStatus.OK.value(),
                         "Éléments récupérés avec succes.",
-                        userService.getUsers(pageable)
+                        userServiceImpl.getUsers(pageable)
                 )
         );
     }
@@ -53,7 +54,7 @@ public class UserController {
                 ApiResponse.of(
                         HttpStatus.OK.value(),
                         "Élément récupéré avec succes.",
-                        userService.getUser(id)
+                        userServiceImpl.getUser(id)
                 )
         );
     }
@@ -70,7 +71,7 @@ public class UserController {
                 ApiResponse.of(
                         HttpStatus.OK.value(),
                         "OK",
-                        userService.getUserByEmail(email))
+                        userServiceImpl.getUserByEmail(email))
         );
     }
 
@@ -86,7 +87,7 @@ public class UserController {
                 ApiResponse.of(
                         HttpStatus.OK.value(),
                         "Utilisateur crée avec succes.",
-                        userService.createUser(user)
+                        userServiceImpl.createUser(user)
                 )
         );
     }
@@ -104,7 +105,7 @@ public class UserController {
                 ApiResponse.of(
                         HttpStatus.OK.value(),
                         "Utilisateur modifié avec succes.",
-                        userService.updateUser(publicId, user)
+                        userServiceImpl.updateUser(publicId, user)
                 )
         );
     }
@@ -117,7 +118,7 @@ public class UserController {
      */
     @DeleteMapping("/user/{publicId}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable UUID publicId) {
-        userService.deleteUser(publicId);
+        userServiceImpl.deleteUser(publicId);
         return ResponseEntity.ok().body(
                 ApiResponse.of(
                         HttpStatus.OK.value(),
