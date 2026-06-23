@@ -70,6 +70,10 @@ public class UserServiceImpl implements IUserService {
     public User updateUser(UUID publicId, User user) {
         User existingUser = repository.findByPublicId(publicId).orElseThrow(() -> new NotFoundException("Élément non trouvé."));
 
+        repository.findByEmail(user.getEmail()).ifPresent(u -> {
+            throw new AlreadyExistException("L'email est déjà associé à un compte.");
+        });
+
         user.setId(existingUser.getId());
         user.setVersion(existingUser.getVersion());
         return repository.save(user);
