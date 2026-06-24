@@ -1,5 +1,6 @@
 package com.nexteam.user.service;
 
+import com.nexteam.exception.AlreadyExistException;
 import com.nexteam.exception.NotFoundException;
 import com.nexteam.user.User;
 import com.nexteam.user.repository.UserRepository;
@@ -19,8 +20,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
@@ -117,43 +117,151 @@ public class UserServiceImplTest {
     @Test
     void updateUser() {
 
-        user1.setFirstname("Paul");
+        User updatedUser = User.builder()
+                .firstname("Paul")
+                .lastname(user1.getLastname())
+                .email(user1.getEmail())
+                .password(user1.getPassword())
+                .active(user1.isActive())
+                .build();
 
-        when(repository.findByPublicId(user1.getPublicId()))
+        updatedUser.setPublicId(user2.getPublicId());
+
+        when(repository.findByPublicId(updatedUser.getPublicId()))
                 .thenReturn(Optional.of(user1));
 
+        when(repository.findByEmail(updatedUser.getEmail()))
+                .thenReturn(Optional.empty());
+
         when(repository.save(any(User.class)))
-                .thenReturn(user1);
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
         User result = service.updateUser(
-                user1.getPublicId(),
-                user1
+                updatedUser.getPublicId(),
+                updatedUser
         );
 
         assertEquals("Paul", result.getFirstname());
 
-        verify(repository).findByPublicId(user1.getPublicId());
-        verify(repository).save(user1);
+        verify(repository).findByPublicId(updatedUser.getPublicId());
+        verify(repository).findByEmail(updatedUser.getEmail());
+        verify(repository).save(any(User.class));
     }
 
     @Test
     void updateUse_emailExisting() {
+
+        User updatedUser = User.builder()
+                .firstname(user2.getFirstname())
+                .lastname(user2.getLastname())
+                .email("jean.dupont@example.com")
+                .password(user2.getPassword())
+                .active(user2.isActive())
+                .build();
+
+        updatedUser.setPublicId(user2.getPublicId());
+
+        when(repository.findByPublicId(updatedUser.getPublicId()))
+                .thenReturn(Optional.ofNullable(user2));
+
+        when(repository.findByEmail(updatedUser.getEmail()))
+                .thenReturn(Optional.of(user1));
+
+        assertThrows(AlreadyExistException.class, ()-> service.updateUser(
+                updatedUser.getPublicId(),
+                updatedUser)
+        );
+
+        verify(repository).findByPublicId(updatedUser.getPublicId());
+        verify(repository).findByEmail(updatedUser.getEmail());
     }
 
     @Test
     void updateUser_idNotfound() {
+
+        User updatedUser = User.builder().build();
+        updatedUser.setPublicId(UUID.fromString("303191e1-7d4d-4c7d-b9bb-380c2e5b6548"));
+
+        when(repository.findByPublicId(updatedUser.getPublicId()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.updateUser(updatedUser.getPublicId(), updatedUser));
+
+        verify(repository).findByPublicId(updatedUser.getPublicId());
+        verify(repository, never()).save(any());
+        verify(repository, never()).findByEmail(any());
+
     }
 
     @Test
     void createUser() {
+        User newUser = User.builder()
+                .firstname("Pierre")
+                .lastname("Feuille")
+                .email("pierre.feuille@example.com")
+                .password(user2.getPassword())
+                .active(user2.isActive())
+                .build();
+
+        when(repository.findByEmail(newUser.getEmail())).thenReturn(Optional.empty());
+        when(repository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        User result = service.createUser(newUser);
+
+        assertAll(
+                () -> assertEquals("Pierre", result.getFirstname()),
+                () -> assertEquals("Feuille", result.getLastname()),
+                () -> assertEquals("pierre.feuille@example.com", result.getEmail())
+        );
+
+        verify(repository).findByEmail(newUser.getEmail());
+        verify(repository).save(newUser);
+    }
+
+    @Test
+    void createUser_emailExisting() {
+        User newUser = User.builder()
+                .firstname("Pierre")
+                .lastname("Feuille")
+                .email("jean.dupont@example.com")
+                .password(user2.getPassword())
+                .active(user2.isActive())
+                .build();
+
+        when(repository.findByEmail(newUser.getEmail()))
+                .thenReturn(Optional.of(user2));
+
+        assertThrows(AlreadyExistException.class, () -> service.createUser(newUser));
+
+        verify(repository).findByEmail(newUser.getEmail());
     }
 
     @Test
     void deleteUser_found() {
+
+        when(repository.findByPublicId(user1.getPublicId())).thenReturn(Optional.of(user1));
+
+        service.deleteUser(user1.getPublicId());
+
+        verify(repository).findByPublicId(user1.getPublicId());
+        verify(repository).deleteByPublicId(user1.getPublicId());
+
     }
 
+
     @Test
-    void deleteUser_notfound() {
+    void deleteUser_notFound() {
+
+        when(repository.findByPublicId(user1.getPublicId()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                NotFoundException.class,
+                () -> service.deleteUser(user1.getPublicId())
+        );
+
+        verify(repository).findByPublicId(user1.getPublicId());
+        verify(repository, never()).deleteByPublicId(any());
     }
 }
 
