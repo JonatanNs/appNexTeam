@@ -36,7 +36,7 @@ L'objectif est de fournir un véritable espace de travail numérique permettant 
 
 ## 📸 Aperçu du Dashboard
 
-![NexTeam Dashboard](docs/03-conception-uxui/presentation-nexTeam.png)
+![NexTeam Dashboard](nexteam-docs/static/img/maquettes/screen.png)
 
 ---
 
