@@ -5,6 +5,7 @@ import com.nexteam.exception.NotFoundException;
 import com.nexteam.user.User;
 import com.nexteam.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -59,6 +60,33 @@ public class UserServiceImplTest {
 
     }
 
+    @DisplayName("UT-USR-00 - Création utilisateur valide")
+    @Test
+    void createUser() {
+        User newUser = User.builder()
+                .firstname("Pierre")
+                .lastname("Feuille")
+                .email("pierre.feuille@example.com")
+                .password(user2.getPassword())
+                .active(user2.isActive())
+                .build();
+
+        when(repository.findByEmail(newUser.getEmail())).thenReturn(Optional.empty());
+        when(repository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        User result = service.createUser(newUser);
+
+        assertAll(
+                () -> assertEquals("Pierre", result.getFirstname()),
+                () -> assertEquals("Feuille", result.getLastname()),
+                () -> assertEquals("pierre.feuille@example.com", result.getEmail())
+        );
+
+        verify(repository).findByEmail(newUser.getEmail());
+        verify(repository).save(newUser);
+    }
+
+    @DisplayName("UT-USR-01 - Récupération d'une liste d'utilisatateurs")
     @Test
     void getUsers() {
         when(repository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Collections.singletonList(user1), Pageable.ofSize(1), 2));
@@ -74,6 +102,7 @@ public class UserServiceImplTest {
         verify(repository).findAll(any(Pageable.class));
     }
 
+    @DisplayName("UT-USR-02 - Récupération utilisateur existant par id")
     @Test
     void getUser_found() {
         when(repository.findByPublicId(user1.getPublicId())).thenReturn(Optional.of(user1));
@@ -83,16 +112,7 @@ public class UserServiceImplTest {
         verify(repository).findByPublicId(user1.getPublicId());
     }
 
-    @Test
-    void getUser_notFound() {
-        UUID unknownId = UUID.fromString("143191e1-7d4d-4c7d-b9bb-380c2e5b6548");
-        when(repository.findByPublicId(unknownId)).thenReturn(Optional.empty());
-
-        assertThrows(NotFoundException.class, () -> service.getUser(unknownId));
-
-        verify(repository).findByPublicId(unknownId);
-    }
-
+    @DisplayName("UT-USR-03 - Récupération utilisateur par email")
     @Test
     void getUserByEmail_found() {
         String email = "john.doe@example.com";
@@ -104,16 +124,7 @@ public class UserServiceImplTest {
 
     }
 
-    @Test
-    void getUserByEmail_notfound() {
-        String email = "loulou.doe@example.com";
-        when(repository.findByEmail(email)).thenReturn(Optional.empty());
-
-        assertThrows(NotFoundException.class, () -> service.getUserByEmail(email));
-
-        verify(repository).findByEmail(email);
-    }
-
+    @DisplayName("UT-USR-04 - Mise à jour utilisateur valide")
     @Test
     void updateUser() {
 
@@ -148,8 +159,41 @@ public class UserServiceImplTest {
         verify(repository).save(any(User.class));
     }
 
+    @DisplayName("UT-USR-05 - Suppression utilisateur par l'id")
     @Test
-    void updateUse_emailExisting() {
+    void deleteUser_found() {
+
+        when(repository.findByPublicId(user1.getPublicId())).thenReturn(Optional.of(user1));
+
+        service.deleteUser(user1.getPublicId());
+
+        verify(repository).findByPublicId(user1.getPublicId());
+        verify(repository).deleteByPublicId(user1.getPublicId());
+
+    }
+
+    @DisplayName("UT-USR-06 - Email déjà existant à la création")
+    @Test
+    void createUser_emailExisting() {
+        User newUser = User.builder()
+                .firstname("Pierre")
+                .lastname("Feuille")
+                .email("jean.dupont@example.com")
+                .password(user2.getPassword())
+                .active(user2.isActive())
+                .build();
+
+        when(repository.findByEmail(newUser.getEmail()))
+                .thenReturn(Optional.of(user2));
+
+        assertThrows(AlreadyExistException.class, () -> service.createUser(newUser));
+
+        verify(repository).findByEmail(newUser.getEmail());
+    }
+
+    @DisplayName("UT-USR-07 - Email déjà utilisé lors de la modification")
+    @Test
+    void updateUser_emailExisting() {
 
         User updatedUser = User.builder()
                 .firstname(user2.getFirstname())
@@ -176,6 +220,18 @@ public class UserServiceImplTest {
         verify(repository).findByEmail(updatedUser.getEmail());
     }
 
+    @DisplayName("UT-USR-08 - Utilisateur introuvable par l'email lors de la modification")
+    @Test
+    void getUserByEmail_notfound() {
+        String email = "loulou.doe@example.com";
+        when(repository.findByEmail(email)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.getUserByEmail(email));
+
+        verify(repository).findByEmail(email);
+    }
+
+    @DisplayName("UT-USR-09 - Utilisateur introuvable par l'id lors de la modification")
     @Test
     void updateUser_idNotfound() {
 
@@ -193,62 +249,19 @@ public class UserServiceImplTest {
 
     }
 
+    @DisplayName("UT-USR-10 - Utilisateur introuvable par l'id lors d'une requete")
     @Test
-    void createUser() {
-        User newUser = User.builder()
-                .firstname("Pierre")
-                .lastname("Feuille")
-                .email("pierre.feuille@example.com")
-                .password(user2.getPassword())
-                .active(user2.isActive())
-                .build();
+    void getUser_notFound() {
+        UUID unknownId = UUID.fromString("143191e1-7d4d-4c7d-b9bb-380c2e5b6548");
+        when(repository.findByPublicId(unknownId)).thenReturn(Optional.empty());
 
-        when(repository.findByEmail(newUser.getEmail())).thenReturn(Optional.empty());
-        when(repository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        assertThrows(NotFoundException.class, () -> service.getUser(unknownId));
 
-        User result = service.createUser(newUser);
-
-        assertAll(
-                () -> assertEquals("Pierre", result.getFirstname()),
-                () -> assertEquals("Feuille", result.getLastname()),
-                () -> assertEquals("pierre.feuille@example.com", result.getEmail())
-        );
-
-        verify(repository).findByEmail(newUser.getEmail());
-        verify(repository).save(newUser);
-    }
-
-    @Test
-    void createUser_emailExisting() {
-        User newUser = User.builder()
-                .firstname("Pierre")
-                .lastname("Feuille")
-                .email("jean.dupont@example.com")
-                .password(user2.getPassword())
-                .active(user2.isActive())
-                .build();
-
-        when(repository.findByEmail(newUser.getEmail()))
-                .thenReturn(Optional.of(user2));
-
-        assertThrows(AlreadyExistException.class, () -> service.createUser(newUser));
-
-        verify(repository).findByEmail(newUser.getEmail());
-    }
-
-    @Test
-    void deleteUser_found() {
-
-        when(repository.findByPublicId(user1.getPublicId())).thenReturn(Optional.of(user1));
-
-        service.deleteUser(user1.getPublicId());
-
-        verify(repository).findByPublicId(user1.getPublicId());
-        verify(repository).deleteByPublicId(user1.getPublicId());
-
+        verify(repository).findByPublicId(unknownId);
     }
 
 
+    @DisplayName("UT-USR-11 - Suppression utilisateur inexistant par l'id")
     @Test
     void deleteUser_notFound() {
 
