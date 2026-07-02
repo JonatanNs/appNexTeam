@@ -23,23 +23,28 @@ Les tests sont divisés en deux niveaux :
 
 | ID | Cas de test | Résultat attendu |
 |----|-------------|-----------------|
-| UT-USR-01 | Création utilisateur valide | Utilisateur créé |
-| UT-USR-02 | Récupération utilisateur existant | Utilisateur retourné |
-| UT-USR-03 | Mise à jour utilisateur valide | Données mises à jour |
+| UT-USR-00 | Création utilisateur valide | Utilisateur créé |
+| UT-USR-01 | Récupération d'une liste d'utilisatateurs | Utilisateur créé |
+| UT-USR-02 | Récupération utilisateur existant par id | Utilisateur retourné |
+| UT-USR-03 | Récupération utilisateur par email | Données mises à jour |
+| UT-USR-04 | Mise à jour utilisateur valide | Données mises à jour |
+| UT-USR-05 | Suppression utilisateur par l'id | Utilisateur supprimé |
 
 #### Cas limites
 
 | ID | Cas de test | Résultat attendu |
 |----|-------------|-----------------|
-| UT-USR-04 | Email déjà existant à la création | AlreadyExistException |
-| UT-USR-05 | Email déjà utilisé lors update | AlreadyExistException |
+| UT-USR-06 | Email déjà existant à la création | AlreadyExistException |
+| UT-USR-07 | Email déjà utilisé lors de la modification | AlreadyExistException |
 
 #### Cas d’erreurs
 
 | ID | Cas de test | Résultat attendu |
 |----|-------------|-----------------|
-| UT-USR-06 | Utilisateur introuvable | NotFoundException |
-| UT-USR-07 | Suppression utilisateur inexistant | NotFoundException |
+| UT-USR-08 | Utilisateur introuvable par l'email lors de la modification | NotFoundException |
+| UT-USR-09 | Utilisateur introuvable par l'id lors de la modification | NotFoundException |
+| UT-USR-10 | Utilisateur introuvable par l'id lors d'une requete | NotFoundException |
+| UT-USR-11 | Suppression utilisateur inexistant par l'id | NotFoundException |
 
 ---
 
@@ -55,8 +60,7 @@ Les tests sont divisés en deux niveaux :
 
 | ID | Cas de test | Résultat attendu |
 |----|-------------|-----------------|
-| UT-AUTH-02 | Mauvais mot de passe | Refus d’accès |
-| UT-AUTH-03 | Email inexistant | NotFoundException |
+| UT-AUTH-02 | Mauvais mot de passe ou Email inexistant | Refus d’accès |
 
 ---
 
@@ -74,15 +78,6 @@ Les tests sont divisés en deux niveaux :
 | ID | Cas de test | Résultat attendu |
 |----|-------------|-----------------|
 | UT-MSG-03 | Suppression message autre utilisateur | AccessDeniedException |
-
----
-
-### 1.4 Règles transverses
-
-| ID | Cas de test | Résultat attendu |
-|----|-------------|-----------------|
-| UT-GEN-01 | Champ obligatoire vide | ValidationException |
-| UT-GEN-02 | Email invalide | ValidationException |
 
 ---
 
