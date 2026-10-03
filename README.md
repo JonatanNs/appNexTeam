@@ -5,7 +5,6 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v16-4169E1?logo=postgresql&logoColor=white)
 ![WebSocket](https://img.shields.io/badge/WebSocket-STOMP%20%2F%20SockJS-black)
 ![Security](https://img.shields.io/badge/Security-JWT%20%26%20BCrypt-green)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
 
 
 NexTeam est une plateforme intranet qui centralise la communication et la gestion RH d'une entreprise en un seul outil, là où la plupart des entreprises jonglent aujourd'hui entre plusieurs abonnements SaaS (Slack ou Teams pour la messagerie, un outil RH séparé pour les fiches de paie, un intranet distinct pour les actualités).
