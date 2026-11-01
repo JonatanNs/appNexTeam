@@ -1,0 +1,148 @@
+@startuml mcd-nexteam
+!pragma layout smetana
+!theme plain
+skinparam dpi 130
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam packageFontSize 15
+skinparam packageFontStyle bold
+skinparam arrowFontSize 11
+skinparam nodesep 45
+skinparam ranksep 70
+skinparam entity {
+  BackgroundColor #FFFFFF
+  BorderColor #666666
+}
+hide circle
+hide methods
+hide stereotype
+
+title NexTeam - MCD (cardinalités Merise)
+
+package "Utilisateurs & Authentification" #EAF2FB {
+entity "User" as User {
+  * id
+  --
+  firstName
+  lastName
+  email
+  password
+  active
+}
+entity "Role" as Role {
+  * id
+  --
+  name
+}
+entity "UserProfile" as UserProfile {
+  * id
+  --
+  bio
+  avatarUrl
+  phone
+}
+entity "Job" as Job {
+  * id
+  --
+  title
+  department
+}
+entity "Address" as Address {
+  * id
+  --
+  street
+  city
+  postalCode
+  country
+}
+entity "AuthToken" as AuthToken {
+  * id
+  --
+  token
+  refreshToken
+  expiresAt
+  revoked
+}
+}
+
+package "Messagerie" #E8F6F7 {
+entity "Conversation" as Conversation {
+  * id
+  --
+  createdAt
+}
+entity "Message" as Message {
+  * id
+  --
+  content
+  sentAt
+}
+}
+
+package "Tâches, fichiers & actualités" #FDF1E4 {
+entity "Task" as Task {
+  * id
+  --
+  title
+  description
+  status
+}
+entity "File" as File {
+  * id
+  --
+  name
+  url
+  mimeType
+  size
+}
+entity "News" as News {
+  * id
+  --
+  title
+  content
+  publishedAt
+}
+}
+
+package "Notifications" #F0ECFA {
+entity "Notification" as Notification {
+  * id
+  --
+  content
+  read
+  readAt
+}
+entity "NotificationType" as NotificationType {
+  * id
+  --
+  name
+}
+}
+
+User "1,n" -[#2F6DB5]- "0,n" Role : possède
+User "0,1" -[#2F6DB5]- "1,1" UserProfile : décrit
+UserProfile "0,1" -[#2F6DB5]- "0,n" Job : occupe
+User "0,1" -[#2F6DB5]- "0,n" Address : habite
+AuthToken "1,1" -[#2F6DB5]- "0,n" User : authentifie
+
+User "0,n" -[#1A8A9A]- "0,n" Conversation : participe\n(joinedAt)
+Message "1,1" -[#1A8A9A]- "0,n" User : envoie
+Message "1,1" -[#1A8A9A]- "0,n" Conversation : appartient à
+
+Task "1,1" -[#D97A1E]- "0,n" User : est assignée à
+Task "0,n" -[#D97A1E]- "0,n" File : joint
+File "1,1" -[#D97A1E]- "0,n" User : dépose
+News "1,1" -[#D97A1E]- "0,n" User : publie
+
+Notification "1,1" -[#6C3FB5]- "0,n" User : reçoit
+Notification "1,1" -[#6C3FB5]- "0,n" NotificationType : est de type
+
+legend right
+  <b>Lecture</b>
+  Une couleur de trait = un domaine fonctionnel.
+  Cardinalités Merise (min,max) lues côté entité.
+  Les associations n,n (possède, participe, joint)
+  deviennent des tables de liaison dans le MLD.
+end legend
+@enduml
