@@ -16,7 +16,11 @@ Il permet de définir :
 
 L’objectif du MCD est de comprendre et structurer les besoins en données du système de manière claire et indépendante de toute implémentation technique.
 
-![mcd_nexteam.PNG](/img/modele-de-donnees/mcd_nexteam.PNG)
+Les cardinalités suivent la notation Merise (min,max) et se lisent côté entité. Les associations plusieurs à plusieurs (**possède** entre User et Role, **participe** entre User et Conversation, **joint** entre Task et File) deviennent des tables de liaison dans le MLD.
+
+![MCD NexTeam](/img/modele-de-donnees/mcd-nexteam.png)
+
+Le diagramme est généré avec PlantUML : [télécharger la source mcd-nexteam.puml](/img/modele-de-donnees/mcd-nexteam.puml)
 
 ## 2 - MLD (Modèle Logique de Données)
 
@@ -30,6 +34,8 @@ Il permet de définir :
 - la structure exacte des relations entre les tables
 
 Le MLD sert donc de base directe pour l’implémentation de la base de données (SQL) et garantit que le modèle conceptuel peut être correctement transformé en système fonctionnel.
+
+![MLD NexTeam](/img/modele-de-donnees/mcd_nexteam.PNG)
 
 [Télécharger le schéma SQL](/file/sql_nexteam.sql)
 
@@ -60,6 +66,15 @@ CREATE TABLE role (
 CREATE TABLE notification_type (
     id_type       SERIAL PRIMARY KEY,
     name          VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Référentiel des métiers/postes (doit exister avant user_profile)
+CREATE TABLE job (
+    id_job        SERIAL PRIMARY KEY,
+    title         VARCHAR(150) NOT NULL,
+    department    VARCHAR(150),
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now()
 );
 
 -- Table centrale
@@ -96,18 +111,6 @@ CREATE TABLE user_profile (
     updated_at    TIMESTAMP NOT NULL DEFAULT now(),
     id_user       INT NOT NULL UNIQUE REFERENCES users(id_user) ON DELETE CASCADE,
     id_job        INT REFERENCES job(id_job)
-);
-
--- ============================================================
--- Table job (référentiel des métiers/postes)
--- ============================================================
-
-CREATE TABLE job (
-    id_job        SERIAL PRIMARY KEY,
-    title         VARCHAR(150) NOT NULL,
-    department    VARCHAR(150),
-    created_at    TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at    TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE auth_token (

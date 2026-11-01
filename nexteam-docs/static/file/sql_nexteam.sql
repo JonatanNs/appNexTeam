@@ -24,6 +24,15 @@ CREATE TABLE notification_type (
     name          VARCHAR(100) NOT NULL UNIQUE
 );
 
+-- Référentiel des métiers/postes (doit exister avant user_profile)
+CREATE TABLE job (
+    id_job        SERIAL PRIMARY KEY,
+    title         VARCHAR(150) NOT NULL,
+    department    VARCHAR(150),
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at    TIMESTAMP NOT NULL DEFAULT now()
+);
+
 -- Table centrale
 CREATE TABLE users (
     id_user       SERIAL PRIMARY KEY,
@@ -58,18 +67,6 @@ CREATE TABLE user_profile (
     updated_at    TIMESTAMP NOT NULL DEFAULT now(),
     id_user       INT NOT NULL UNIQUE REFERENCES users(id_user) ON DELETE CASCADE,
     id_job        INT REFERENCES job(id_job)
-);
-
--- ============================================================
--- Table job (référentiel des métiers/postes)
--- ============================================================
-
-CREATE TABLE job (
-    id_job        SERIAL PRIMARY KEY,
-    title         VARCHAR(150) NOT NULL,
-    department    VARCHAR(150),
-    created_at    TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at    TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE auth_token (
