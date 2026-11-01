@@ -106,6 +106,7 @@ public class UserService {
      * @param userRequestDTO les informations nécéssaire pour créer l'utilisateur.
      * @return l'utilisateur créé
      * @throws AlreadyExistException si l'email est déjà associé à un compte.
+     * @throws IllegalArgumentException si le mot de passe est absent ou fait moins de 12 caractères.
      */
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
 
@@ -128,15 +129,17 @@ public class UserService {
             throw new AlreadyExistException("L'email est déjà associé à un compte.");
         });
 
+        String rawPassword = userRequestDTO.getPassword();
+        if (rawPassword == null || rawPassword.length() < 12) {
+            throw new IllegalArgumentException("Le mot de passe doit contenir au moins 12 caractères.");
+        }
+
         userRequestDTO.setEmail(email);
 
         User user = userMapper.requestDTOToUser(userRequestDTO);
 
         user.setActive(true);
-
-        String rawPassword = "Password123";
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setPassword(passwordEncoder.encode(rawPassword));   // seul le hash BCrypt est enregistré
 
         return userMapper.userToResponseDTO(userRepository.save(user));
     }

@@ -25,6 +25,7 @@ export class FormAdduser {
     firstname:  new FormControl('', Validators.required),
     lastname:  new FormControl('', Validators.required),
     email:  new FormControl('', [Validators.required, Validators.email]),
+    password:  new FormControl('', [Validators.required, Validators.minLength(12)]),
   });
 
   firstnameSig  = toSignal(this.userForm.get('firstname')!.valueChanges, { initialValue: '' });

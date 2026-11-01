@@ -39,6 +39,19 @@
     </div>
 
     <div>
+      <label class="form-label-nxt" for="password">Mot de passe provisoire</label>
+      <input id="password" type="password" class="input-nxt w-full" autocomplete="new-password" formControlName="password" />
+      @if (userForm.get('password')?.touched) {
+        @if (userForm.get('password')?.hasError('required')) {
+          <p class="text-nxt-error">Le mot de passe est requis</p>
+        }
+        @if (userForm.get('password')?.hasError('minlength')) {
+          <p class="text-nxt-error">Le mot de passe doit contenir au moins 12 caractères</p>
+        }
+      }
+    </div>
+
+    <div>
       <p class="text-nxt-error">{{ errorSig() }}</p>
     </div>
 
